@@ -1,0 +1,38 @@
+# Bytecode and caches
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.db
+*.log
+
+# Virtual environments
+venv/
+.env/
+.env.*
+*.env
+
+# Git
+.git/
+.gitignore
+
+# Editor/IDE files
+.vscode/
+*.swp
+*.bak
+*.tmp
+*.idea/
+
+# Docker related
+Dockerfile
+docker-compose*.yml
+
+# Tests
+tests/
+.coverage
+htmlcov/
+
+# Misc
+*.DS_Store
+*.egg-info/
+build/
+dist/
