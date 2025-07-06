@@ -1,26 +1,36 @@
-import uuid
 from pydantic import BaseModel, Field
-from app.models.todo import PriorityEnum
+from typing import Optional
+from enum import Enum
+
+
+class PriorityEnum(str, Enum):
+    low = "low"
+    medium = "medium"
+    high = "high"
+
 
 class TodoBase(BaseModel):
-    title: str
-    description: str | None = None
-    priority: PriorityEnum = PriorityEnum.MEDIUM
+    title: str = Field(..., max_length=100)
+    description: Optional[str] = Field(None, max_length=300)
+    priority: PriorityEnum = PriorityEnum.medium
 
-class TodoCreate(TodoBase): pass
+
+class TodoCreate(TodoBase):
+    pass
+
 
 class TodoUpdate(BaseModel):
-    title: str | None = None
-    description: str | None = None
-    priority: PriorityEnum | None = None
-    completed: bool | None = None
-    archived: bool | None = None
+    title: Optional[str] = Field(None, max_length=100)
+    description: Optional[str] = Field(None, max_length=300)
+    priority: Optional[PriorityEnum]
+    completed: Optional[bool]
+    archived: Optional[bool]
+
 
 class TodoRead(TodoBase):
-    id: uuid.UUID
+    id: str
     completed: bool
     archived: bool
-    priority: PriorityEnum
 
     class Config:
         from_attributes = True

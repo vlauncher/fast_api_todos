@@ -4,7 +4,7 @@ from app.schemas.user import *
 from app.services.user_service import *
 from app.core.database import get_db
 
-router = APIRouter(prefix="", tags=["Auth"])
+router = APIRouter()
 
 @router.post("/register", response_model=UserRead, status_code=201)
 async def register(user_in: UserCreate, db: AsyncSession = Depends(get_db)):

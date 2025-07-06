@@ -6,8 +6,8 @@ app = FastAPI(title="FastAPI Todos")
 
 # ROUTERS
 from app.api.routes import auth, todo
-app.include_router(auth.router, prefix="/auth", tags=["Auth"])
-app.include_router(todo.router, prefix="/todos", tags=["Todos"])
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["Auth"])
+app.include_router(todo.router, prefix="/api/v1/todos", tags=["Todos"])
 
 app.add_middleware(
     CORSMiddleware,
@@ -48,8 +48,3 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)

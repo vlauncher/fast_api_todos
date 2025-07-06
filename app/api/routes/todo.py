@@ -7,7 +7,7 @@ from app.api.deps import get_current_user_id
 from app.schemas.todo import *
 from app.services import todo_service
 
-router = APIRouter(prefix="/todos", tags=["Todos"])
+router = APIRouter()
 
 @router.post("/", response_model=TodoRead)
 async def create(todo: TodoCreate, user_id: str = Depends(get_current_user_id), db: AsyncSession = Depends(get_db)):
