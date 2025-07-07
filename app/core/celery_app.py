@@ -8,3 +8,5 @@ celery = Celery(
 )
 
 celery.conf.update(task_serializer='json', result_serializer='json', accept_content=['json'])
+
+import app.core.tasks
