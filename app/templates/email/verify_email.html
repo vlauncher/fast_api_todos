@@ -1,2 +1,15 @@
-<h2>Hi {{ first_name }}, verify your account</h2>
-<p>Click the link to verify: <a href="http://localhost:8000/auth/verify?token={{ token }}">Verify Email</a></p>
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-6">
+  <div class="max-w-md mx-auto bg-white shadow-md rounded-lg p-6">
+    <h2 class="text-xl font-bold text-gray-800">Hi {{ first_name }},</h2>
+    <p class="mt-2 text-gray-600">Please verify your email address to activate your account.</p>
+    <a href="{{ url }}" class="inline-block mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      Verify Email
+    </a>
+  </div>
+</body>
+</html>

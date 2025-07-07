@@ -22,5 +22,6 @@ class Settings(BaseModel):
     EMAIL_HOST_USER: str = os.getenv("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD: str = os.getenv("EMAIL_HOST_PASSWORD")
     EMAIL_FROM_NAME: str = os.getenv("EMAIL_FROM_NAME")
+    FRONTEND_URL: str = os.getenv("FRONTEND_URL")
 
 settings = Settings()

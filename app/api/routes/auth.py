@@ -26,8 +26,9 @@ async def forgot(email_req: ForgotPasswordRequest, db: AsyncSession = Depends(ge
 
 @router.post("/reset-password")
 async def reset(req: ResetPasswordRequest, db: AsyncSession = Depends(get_db)):
-    await reset_password(req.token, req.new_password, db)
-    return {"msg": "Password reset"}
+    await reset_password(req.reset_token, req.old_password, req.new_password, db)
+    return {"msg": "Password reset successful. You may now log in with your new password."}
+
 
 @router.post("/refresh", response_model=Token)
 async def refresh(payload: TokenPayload):

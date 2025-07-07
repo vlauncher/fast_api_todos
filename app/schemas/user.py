@@ -1,4 +1,5 @@
-from pydantic import BaseModel, EmailStr, Field, validator
+from pydantic import BaseModel, EmailStr, Field, validator,field_serializer
+from uuid import UUID
 from typing import Optional
 
 
@@ -30,6 +31,7 @@ class ForgotPasswordRequest(BaseModel):
 
 
 class ResetPasswordRequest(BaseModel):
+    reset_token: str
     old_password: str = Field(..., min_length=8)
     new_password: str = Field(..., min_length=8)
     confirm_new_password: str
@@ -46,13 +48,25 @@ class ResetPasswordRequest(BaseModel):
             raise ValueError("New password cannot be the same as the old password")
         return v
 
+    @validator("new_password")
+    def strong_password(cls, v):
+        if not any(char.isdigit() for char in v):
+            raise ValueError("Password must contain at least one digit")
+        if not any(char.isalpha() for char in v):
+            raise ValueError("Password must contain at least one letter")
+        return v
+
 
 class UserRead(BaseModel):
-    id: str
+    id: UUID
     email: EmailStr
     first_name: str
     last_name: str
     is_verified: bool
+
+    @field_serializer('id')
+    def uuid_to_str(self, uuid: UUID):
+        return str(uuid)
 
     class Config:
         from_attributes = True
