@@ -6,7 +6,7 @@ from uuid import UUID
 from app.schemas.user import UserCreate, UserLogin
 from app.core.security import hash_password, verify_password
 from app.core.token import create_access_token, create_refresh_token, create_token
-from app.core.email import send_email
+from app.core.tasks import send_email_task
 from app.core.config import settings
 from datetime import timedelta
 from jose import jwt, JWTError
@@ -31,7 +31,7 @@ async def register_user(user_in: UserCreate, db: AsyncSession):
     token = create_token({"sub": str(user.id)}, timedelta(days=1))
     verify_link = f"{settings.FRONTEND_URL}/verify-email?token={token}"
 
-    send_email(
+    send_email_task.delay(
         to=user.email,
         subject="Verify your email",
         template_name="verify_email.html",
@@ -73,7 +73,7 @@ async def verify_email(token: str, db: AsyncSession):
     db.add(user)
     await db.commit()
 
-    send_email(
+    send_email_task.delay(
         to=user.email,
         subject="Email Verified Successfully",
         template_name="email_verified_success.html",
@@ -90,7 +90,7 @@ async def forgot_password(email: str, db: AsyncSession):
     token = create_token({"sub": str(user.id)}, timedelta(days=1))
     reset_link = f"{settings.FRONTEND_URL}/reset-password?token={token}"
 
-    send_email(
+    send_email_task.delay(
         to=user.email,
         subject="Password Reset Request",
         template_name="forgot_password.html",
@@ -122,7 +122,7 @@ async def reset_password(reset_token: str, old_password: str, new_password: str,
     await db.commit()
 
     # ✅ Optional: send success email
-    send_email(
+    send_email_task.delay(
         to=user.email,
         subject="Password Reset Successful",
         template_name="password_reset_success.html",
