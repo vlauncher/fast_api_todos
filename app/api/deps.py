@@ -8,6 +8,7 @@ from app.models import User
 from app.schemas import TokenData
 
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+
 security = HTTPBearer(scheme_name="BearerAuth")
 
 async def get_current_user(db: Session = Depends(get_db), token: HTTPAuthorizationCredentials = Depends(security)) -> User:

@@ -58,6 +58,7 @@ def test_get_todo_by_id_not_found(db, test_user):
     assert todo is None
 
 def test_get_todo_by_id_wrong_user(db, test_user):
+    from app.models import User
     from app.core.security import get_password_hash, generate_otp
     import datetime
     
